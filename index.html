@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080e18">
+<title>ByeVisuals</title>
+
+<style>
+:root {
+  --bg: #080e18;
+  --panel: #111d2b;
+  --blue: #42c8ff;
+  --text: #ffffff;
+  --muted: #91a5ba;
+  --border: #203449;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -15%, #123b59, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+button, input, a { font: inherit; }
+button, a { cursor: pointer; }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,14,24,.9);
+  backdrop-filter: blur(18px);
+}
+
+.container {
+  width: min(1100px, calc(100% - 36px));
+  margin: auto;
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logo span, h1 span { color: var(--blue); }
+
+nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+nav button, .btn {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #142235;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: .2s;
+}
+
+nav button {
+  background: transparent;
+  color: var(--muted);
+}
+
+nav button.active, nav button:hover {
+  color: var(--blue);
+  background: #122b40;
+  border-color: #287da8;
+}
+
+.btn.primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #06121d;
+  box-shadow: 0 5px 25px #42c8ff30;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+main { padding: 55px 0 90px; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.hero {
+  text-align: center;
+  padding: 100px 10px 120px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid #287da8;
+  background: #102a40;
+  color: var(--blue);
+  border-radius: 30px;
+  font-size: 13px;
+}
+
+h1 {
+  font-size: clamp(48px, 9vw, 88px);
+  letter-spacing: -4px;
+  margin: 25px 0 18px;
+  font-weight: 900;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 0 auto 35px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 13px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.section-title h2 {
+  font-size: 39px;
+  margin: 0 0 12px;
+}
+
+.section-title p { color: var(--muted); }
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.plan {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #142235, #0d1725);
+  display: flex;
+  flex-direction: column;
+  min-height: 245px;
+  transition: .25s;
+}
+
+.plan:hover {
+  transform: translateY(-6px);
+  border-color: #398cb8;
+  box-shadow: 0 12px 35px #0005;
+}
+
+.plan.featured { border-color: var(--blue); }
+
+.plan h3 { font-size: 25px; margin: 0 0 12px; }
+.plan p { color: var(--muted); line-height: 1.7; }
+.plan .btn { margin-top: auto; text-align: center; }
+
+.panel {
+  max-width: 650px;
+  margin: auto;
+  padding: 35px;
+  background: linear-gradient(145deg, #142235, #0d1725);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 20px 70px #0004;
+}
+
+.panel h2 { margin: 0 0 12px; font-size: 30px; }
+
+.muted { color: var(--muted); line-height: 1.7; }
+
+.field { margin-top: 25px; }
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #080f19;
+  color: white;
+  outline: none;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #42c8ff18;
+}
+
+.field button { width: 100%; margin-top: 13px; }
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+  transform: none;
+}
+
+.message {
+  display: none;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 18px;
+  line-height: 1.5;
+}
+
+.message.show { display: block; }
+
+.message.error {
+  background: #35191d;
+  color: #ffaaaa;
+  border: 1px solid #71343b;
+}
+
+.message.success {
+  background: #102e40;
+  color: #8ce0ff;
+  border: 1px solid #287da8;
+}
+
+#downloadArea {
+  display: none;
+  margin-top: 23px;
+  padding: 22px;
+  background: #102a40;
+  border: 1px solid #287da8;
+  border-radius: 15px;
+}
+
+#downloadArea.show { display: block; }
+
+#downloadArea p {
+  color: #b6d7e9;
+  line-height: 1.6;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media(max-width: 750px) {
+  .plans { grid-template-columns: 1fr; }
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+  }
+  .hero { padding: 70px 10px 85px; }
+  h1 { letter-spacing: -2px; }
+  .panel { padding: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">Bye<span>Visuals</span></div>
+
+    <nav>
+      <button class="active" data-page="home">Главная</button>
+      <button data-page="plans">Тарифы</button>
+      <button data-page="cabinet">Активация ключа</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ГЛАВНАЯ -->
+
+  <section class="page active" id="home">
+    <div class="hero">
+      <div class="tag">Minecraft 1.21.4 · Fabric</div>
+
+      <h1>Bye<span>Visuals</span></h1>
+
+      <p>
+        Открой новые возможности Minecraft
+        вместе с ByeVisuals.
+        Выбери тариф, активируй ключ и скачай Launcher.
+      </p>
+
+      <div class="actions">
+        <button class="btn primary" data-go="plans">
+          Выбрать тариф
+        </button>
+
+        <button class="btn" data-go="cabinet">
+          Активировать ключ
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ТАРИФЫ -->
+
+  <section class="page" id="plans">
+    <div class="section-title">
+      <h2>Тарифы</h2>
+      <p>Выбери свой вариант ByeVisuals.</p>
+    </div>
+
+    <div class="plans">
+
+      <article class="plan">
+        <h3>1 месяц</h3>
+        <p>Доступ на 30 дней.</p>
+        <a class="btn primary" id="buyMonth"
+           target="_blank" rel="noopener noreferrer">
+          Купить на FunPay
+        </a>
+      </article>
+
+      <article class="plan featured">
+        <h3>3 месяца</h3>
+        <p>Доступ на 90 дней.</p>
+        <a class="btn primary" id="buyQuarter"
+           target="_blank" rel="noopener noreferrer">
+          Купить на FunPay
+        </a>
+      </article>
+
+      <article class="plan">
+        <h3>INFINITY</h3>
+        <p>Бессрочный доступ.</p>
+        <a class="btn primary" id="buyInfinity"
+           target="_blank" rel="noopener noreferrer">
+          Купить на FunPay
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- АКТИВАЦИЯ -->
+
+  <section class="page" id="cabinet">
+    <div class="panel">
+
+      <h2>Активация ключа</h2>
+
+      <p class="muted">
+        Введи ключ ByeVisuals.
+        Сервер проверит его и откроет скачивание Launcher.
+      </p>
+
+      <div class="field">
+        <label for="licenseKey">Ключ ByeVisuals</label>
+
+        <input
+          id="licenseKey"
+          type="text"
+          placeholder="Введи ключ"
+          autocomplete="off"
+          spellcheck="false"
+        >
+
+        <button class="btn primary" id="activateKey">
+          Проверить ключ
+        </button>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div id="downloadArea">
+
+        <strong>Ключ успешно проверен!</strong>
+
+        <p>
+          Теперь ты можешь скачать ByeVisuals Launcher.
+        </p>
+
+        <a
+          class="btn primary"
+          href="https://www.dropbox.com/scl/fi/7k7wg69h48ifs3cy7rau6/ByeVisualsLauncher.exe?rlkey=rsfenrlqiki16452jkr0s87hg&st=njuo27p1&dl=1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Скачать ByeVisualsLauncher.exe
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  ByeVisuals · Minecraft 1.21.4 · Fabric
+</footer>
+
+<script>
+
+// ============================================================
+// CLOUDFLARE WORKER
+// ============================================================
+
+const API_URL =
+  "https://byekey.byevisuals.workers.dev/";
+
+// ============================================================
+// FUNPAY
+// ============================================================
+
+const FUNPAY_LINKS = {
+  month: "",
+  quarter: "",
+  infinity: ""
+};
+
+function setupPurchaseButton(id, url) {
+  const button = document.getElementById(id);
+
+  if (url && url.trim()) {
+    button.href = url;
+  } else {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      alert("Ссылка на этот тариф FunPay пока не добавлена.");
+    });
+  }
+}
+
+setupPurchaseButton("buyMonth", FUNPAY_LINKS.month);
+setupPurchaseButton("buyQuarter", FUNPAY_LINKS.quarter);
+setupPurchaseButton("buyInfinity", FUNPAY_LINKS.infinity);
+
+// ============================================================
+// НАВИГАЦИЯ
+// ============================================================
+
+function showPage(name) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === name);
+  });
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === name
+    );
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.page);
+  });
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.go);
+  });
+});
+
+// ============================================================
+// СООБЩЕНИЯ
+// ============================================================
+
+const message = document.getElementById("message");
+const downloadArea = document.getElementById("downloadArea");
+
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className = "message show " + type;
+}
+
+// ============================================================
+// ПРОВЕРКА КЛЮЧА НА CLOUDFLARE
+// ============================================================
+
+document.getElementById("activateKey").addEventListener("click", async () => {
+
+  const input = document.getElementById("licenseKey");
+  const button = document.getElementById("activateKey");
+
+  const key = input.value.trim().toLowerCase();
+
+  downloadArea.classList.remove("show");
+
+  if (!key) {
+    showMessage("Введи ключ ByeVisuals.", "error");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Проверка...";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ key })
+    });
+
+    if (!response.ok) {
+      throw new Error("Server error");
+    }
+
+    const result = await response.json();
+
+    if (result.valid === true) {
+      showMessage(
+        "Ключ правильный! Скачивание доступно.",
+        "success"
+      );
+
+      downloadArea.classList.add("show");
+
+    } else {
+      showMessage(
+        "Неверный ключ ByeVisuals!",
+        "error"
+      );
+    }
+
+  } catch (error) {
+    showMessage(
+      "Не удалось подключиться к серверу проверки. Попробуй позже.",
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = "Проверить ключ";
+  }
+
+});
+
+// ============================================================
+// ЗАПУСК
+// ============================================================
+
+</script>
+
+</body>
+</html>
